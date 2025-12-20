@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { FileText, Upload, Download, RefreshCw, ChevronLeft, Check, AlertCircle, Sparkles } from "lucide-react";
 import { SchoolAdmission, defaultAdmission } from "./types";
 
@@ -60,6 +61,54 @@ const CustomTextarea = React.forwardRef<
 })
 CustomTextarea.displayName = "Textarea"
 
+function FormSkeleton() {
+    return (
+        <div className="space-y-6">
+            <Card className="border-indigo-100/20 bg-background/60 backdrop-blur-xl shadow-lg border">
+                <div className="p-6 space-y-4">
+                    <Skeleton className="h-6 w-48 bg-indigo-100/20" />
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-24 bg-indigo-100/20" />
+                            <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Skeleton className="h-4 w-24 bg-indigo-100/20" />
+                                <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                            </div>
+                            <div className="space-y-2">
+                                <Skeleton className="h-4 w-24 bg-indigo-100/20" />
+                                <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-32 bg-indigo-100/20" />
+                            <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                        </div>
+                    </div>
+                </div>
+            </Card>
+
+            <Card className="border-indigo-100/20 bg-background/60 backdrop-blur-xl shadow-lg border">
+                <div className="p-6 space-y-4">
+                    <Skeleton className="h-6 w-48 bg-indigo-100/20" />
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-24 bg-indigo-100/20" />
+                            <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                            <Skeleton className="h-10 w-full bg-indigo-100/20" />
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </div>
+    )
+}
+
 /* =========================================
    Main Page
    ========================================= */
@@ -68,7 +117,9 @@ export default function AdmissionOcrPage() {
     const [pdf, setPdf] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState("");
     const [data, setData] = useState<SchoolAdmission>(defaultAdmission);
+
     const [loading, setLoading] = useState(false);
+    const [hasExtracted, setHasExtracted] = useState(false);
     const [err, setErr] = useState<string | null>(null);
 
     const onFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -105,6 +156,7 @@ export default function AdmissionOcrPage() {
             // Immediately update state with parsed result
             if (parsed) {
                 setData(parsed as SchoolAdmission);
+                setHasExtracted(true);
             } else {
                 throw new Error("Could not parse structured data from response");
             }
@@ -121,8 +173,9 @@ export default function AdmissionOcrPage() {
         setData(defaultAdmission);
         setPdf(null);
         setPreviewUrl("");
+        setHasExtracted(false);
         setErr(null);
-    }
+    };
 
     // Revoke object URL
     useEffect(() => {
@@ -256,206 +309,225 @@ export default function AdmissionOcrPage() {
                     {/* RIGHT: Form Data */}
                     <div className="h-full overflow-hidden flex flex-col">
                         <div className="flex-1 overflow-y-auto pr-2 pb-20 space-y-6 scrollbar-thin scrollbar-thumb-indigo-200 dark:scrollbar-thumb-indigo-800 scrollbar-track-transparent">
-                            {/* Intro Card */}
-                            <Card className="bg-gradient-to-br from-indigo-500/10 to-teal-500/10 border-indigo-200/20 border shadow-sm">
-                                <CardContent className="p-4 flex gap-4 items-start">
-                                    <div className="bg-indigo-500/20 p-2 rounded-lg">
-                                        <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-medium text-indigo-900 dark:text-indigo-100">AI Data Extraction</h4>
-                                        <p className="text-sm text-indigo-700/80 dark:text-indigo-300/80 mt-1">
-                                            Fields on this side map 1:1 with the uploaded document. Review and edit extracted data below.
-                                        </p>
-                                    </div>
-                                </CardContent>
-                            </Card>
 
-                            {/* Student Info */}
-                            <SectionCard title="Student Information">
-                                <div className="grid gap-4">
-                                    <div className="grid gap-2">
-                                        <Label>Student Name</Label>
-                                        <Input
-                                            value={data.studentInformation.fullName}
-                                            onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, fullName: e.target.value } })}
-                                            placeholder="Full Name"
-                                            className="bg-background/50"
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="grid gap-2">
-                                            <Label>Date of Birth</Label>
-                                            <Input
-                                                value={data.studentInformation.dateOfBirth}
-                                                onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, dateOfBirth: e.target.value } })}
-                                                placeholder="MM/DD/YYYY"
-                                                className="bg-background/50"
-                                            />
+                            {/* Loading State */}
+                            {loading && <FormSkeleton />}
+
+                            {/* Extracted Data State */}
+                            {!loading && hasExtracted && (
+                                <>
+                                    {/* Intro Card */}
+                                    <Card className="bg-gradient-to-br from-indigo-500/10 to-teal-500/10 border-indigo-200/20 border shadow-sm">
+                                        <CardContent className="p-4 flex gap-4 items-start">
+                                            <div className="bg-indigo-500/20 p-2 rounded-lg">
+                                                <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-indigo-900 dark:text-indigo-100">AI Data Extraction</h4>
+                                                <p className="text-sm text-indigo-700/80 dark:text-indigo-300/80 mt-1">
+                                                    Fields on this side map 1:1 with the uploaded document. Review and edit extracted data below.
+                                                </p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+
+                                    {/* Student Info */}
+                                    <SectionCard title="Student Information">
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-2">
+                                                <Label>Student Name</Label>
+                                                <Input
+                                                    value={data.studentInformation.fullName}
+                                                    onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, fullName: e.target.value } })}
+                                                    placeholder="Full Name"
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="grid gap-2">
+                                                    <Label>Date of Birth</Label>
+                                                    <Input
+                                                        value={data.studentInformation.dateOfBirth}
+                                                        onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, dateOfBirth: e.target.value } })}
+                                                        placeholder="MM/DD/YYYY"
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                                <div className="grid gap-2">
+                                                    <Label>Gender</Label>
+                                                    <Input
+                                                        value={data.studentInformation.gender}
+                                                        onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, gender: e.target.value } })}
+                                                        placeholder="Gender"
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <Separator className="my-2" />
+                                            <div className="grid gap-2">
+                                                <Label>Residential Address</Label>
+                                                <Input
+                                                    value={data.studentInformation.residentialAddress.fullAddress}
+                                                    onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, fullAddress: e.target.value } } })}
+                                                    placeholder="Street Address"
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <Input
+                                                    value={data.studentInformation.residentialAddress.city}
+                                                    onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, city: e.target.value } } })}
+                                                    placeholder="City" className="bg-background/50"
+                                                />
+                                                <Input
+                                                    value={data.studentInformation.residentialAddress.state}
+                                                    onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, state: e.target.value } } })}
+                                                    placeholder="State" className="bg-background/50"
+                                                />
+                                                <Input
+                                                    value={data.studentInformation.residentialAddress.zip}
+                                                    onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, zip: e.target.value } } })}
+                                                    placeholder="Zip" className="bg-background/50"
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="grid gap-2">
-                                            <Label>Gender</Label>
-                                            <Input
-                                                value={data.studentInformation.gender}
-                                                onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, gender: e.target.value } })}
-                                                placeholder="Gender"
-                                                className="bg-background/50"
-                                            />
+                                    </SectionCard>
+
+                                    {/* Parent Info */}
+                                    <SectionCard title="Parent / Guardian">
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-2">
+                                                <Label>Full Name</Label>
+                                                <Input
+                                                    value={data.parentGuardianInformation.fullName}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, fullName: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="grid gap-2">
+                                                    <Label>Relationship</Label>
+                                                    <Input
+                                                        value={data.parentGuardianInformation.relationshipToStudent}
+                                                        onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, relationshipToStudent: e.target.value } })}
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                                <div className="grid gap-2">
+                                                    <Label>Contact</Label>
+                                                    <Input
+                                                        value={data.parentGuardianInformation.contactNumber}
+                                                        onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, contactNumber: e.target.value } })}
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Email</Label>
+                                                <Input
+                                                    value={data.parentGuardianInformation.emailAddress}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, emailAddress: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <Separator className="my-2" />
-                                    <div className="grid gap-2">
-                                        <Label>Residential Address</Label>
-                                        <Input
-                                            value={data.studentInformation.residentialAddress.fullAddress}
-                                            onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, fullAddress: e.target.value } } })}
-                                            placeholder="Street Address"
-                                            className="bg-background/50"
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-3 gap-2">
-                                        <Input
-                                            value={data.studentInformation.residentialAddress.city}
-                                            onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, city: e.target.value } } })}
-                                            placeholder="City" className="bg-background/50"
-                                        />
-                                        <Input
-                                            value={data.studentInformation.residentialAddress.state}
-                                            onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, state: e.target.value } } })}
-                                            placeholder="State" className="bg-background/50"
-                                        />
-                                        <Input
-                                            value={data.studentInformation.residentialAddress.zip}
-                                            onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, residentialAddress: { ...data.studentInformation.residentialAddress, zip: e.target.value } } })}
-                                            placeholder="Zip" className="bg-background/50"
-                                        />
-                                    </div>
+                                    </SectionCard>
+
+                                    {/* Previous School */}
+                                    <SectionCard title="Previous School">
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-2">
+                                                <Label>School Name</Label>
+                                                <Input
+                                                    value={data.previousSchoolDetails.schoolName}
+                                                    onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolName: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="grid gap-2">
+                                                    <Label>From</Label>
+                                                    <Input
+                                                        value={data.previousSchoolDetails.datesAttended.from}
+                                                        onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, datesAttended: { ...data.previousSchoolDetails.datesAttended, from: e.target.value } } })}
+                                                        placeholder="Start Date"
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                                <div className="grid gap-2">
+                                                    <Label>To</Label>
+                                                    <Input
+                                                        value={data.previousSchoolDetails.datesAttended.to}
+                                                        onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, datesAttended: { ...data.previousSchoolDetails.datesAttended, to: e.target.value } } })}
+                                                        placeholder="End Date"
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SectionCard>
+
+                                    {/* Health & Additional */}
+                                    <SectionCard title="Health & Additional">
+                                        <div className="grid gap-4">
+                                            {/* Custom Checkbox Row */}
+                                            <div className="flex items-start space-x-3 p-3 rounded-md bg-background/50 border border-input">
+                                                <input
+                                                    type="checkbox"
+                                                    id="allergies"
+                                                    checked={data.healthInformation.hasAllergiesOrConditions}
+                                                    onChange={(e) => setData({ ...data, healthInformation: { ...data.healthInformation, hasAllergiesOrConditions: e.target.checked } })}
+                                                    className="mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                />
+                                                <div className="grid gap-1.5 leading-none">
+                                                    <label
+                                                        htmlFor="allergies"
+                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                    >
+                                                        Has Allergies or Conditions
+                                                    </label>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Does the student have any known medical conditions?
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div className="grid gap-2">
+                                                <Label>Medical Details</Label>
+                                                <CustomTextarea
+                                                    value={data.healthInformation.conditionsDetails}
+                                                    onChange={(e) => setData({ ...data, healthInformation: { ...data.healthInformation, conditionsDetails: e.target.value } })}
+                                                    placeholder="If yes, please specify..."
+                                                />
+                                            </div>
+
+                                            <div className="grid gap-2">
+                                                <Label>Special Educational Needs</Label>
+                                                <CustomTextarea
+                                                    value={data.additionalInformation.specialEducationalNeeds}
+                                                    onChange={(e) => setData({ ...data, additionalInformation: { ...data.additionalInformation, specialEducationalNeeds: e.target.value } })}
+                                                    placeholder="Any special requirements..."
+                                                />
+                                            </div>
+                                        </div>
+                                    </SectionCard>
+                                </>
+                            )}
+
+                            {/* Empty State / Initial Instructions */}
+                            {!loading && !hasExtracted && (
+                                <div className="flex flex-col items-center justify-center h-full text-center p-8 text-muted-foreground opacity-50">
+                                    <FileText className="h-16 w-16 mb-4 stroke-1" />
+                                    <p className="text-lg font-medium">No Data Extracted Yet</p>
+                                    <p className="text-sm">Upload a document and click "Extract Data" to see results here.</p>
                                 </div>
-                            </SectionCard>
+                            )}
 
-                            {/* Parent Info */}
-                            <SectionCard title="Parent / Guardian">
-                                <div className="grid gap-4">
-                                    <div className="grid gap-2">
-                                        <Label>Full Name</Label>
-                                        <Input
-                                            value={data.parentGuardianInformation.fullName}
-                                            onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, fullName: e.target.value } })}
-                                            className="bg-background/50"
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="grid gap-2">
-                                            <Label>Relationship</Label>
-                                            <Input
-                                                value={data.parentGuardianInformation.relationshipToStudent}
-                                                onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, relationshipToStudent: e.target.value } })}
-                                                className="bg-background/50"
-                                            />
-                                        </div>
-                                        <div className="grid gap-2">
-                                            <Label>Contact</Label>
-                                            <Input
-                                                value={data.parentGuardianInformation.contactNumber}
-                                                onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, contactNumber: e.target.value } })}
-                                                className="bg-background/50"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid gap-2">
-                                        <Label>Email</Label>
-                                        <Input
-                                            value={data.parentGuardianInformation.emailAddress}
-                                            onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, emailAddress: e.target.value } })}
-                                            className="bg-background/50"
-                                        />
-                                    </div>
-                                </div>
-                            </SectionCard>
-
-                            {/* Previous School */}
-                            <SectionCard title="Previous School">
-                                <div className="grid gap-4">
-                                    <div className="grid gap-2">
-                                        <Label>School Name</Label>
-                                        <Input
-                                            value={data.previousSchoolDetails.schoolName}
-                                            onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolName: e.target.value } })}
-                                            className="bg-background/50"
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="grid gap-2">
-                                            <Label>From</Label>
-                                            <Input
-                                                value={data.previousSchoolDetails.datesAttended.from}
-                                                onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, datesAttended: { ...data.previousSchoolDetails.datesAttended, from: e.target.value } } })}
-                                                placeholder="Start Date"
-                                                className="bg-background/50"
-                                            />
-                                        </div>
-                                        <div className="grid gap-2">
-                                            <Label>To</Label>
-                                            <Input
-                                                value={data.previousSchoolDetails.datesAttended.to}
-                                                onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, datesAttended: { ...data.previousSchoolDetails.datesAttended, to: e.target.value } } })}
-                                                placeholder="End Date"
-                                                className="bg-background/50"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </SectionCard>
-
-                            {/* Health & Additional */}
-                            <SectionCard title="Health & Additional">
-                                <div className="grid gap-4">
-                                    {/* Custom Checkbox Row */}
-                                    <div className="flex items-start space-x-3 p-3 rounded-md bg-background/50 border border-input">
-                                        <input
-                                            type="checkbox"
-                                            id="allergies"
-                                            checked={data.healthInformation.hasAllergiesOrConditions}
-                                            onChange={(e) => setData({ ...data, healthInformation: { ...data.healthInformation, hasAllergiesOrConditions: e.target.checked } })}
-                                            className="mt-1 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                        />
-                                        <div className="grid gap-1.5 leading-none">
-                                            <label
-                                                htmlFor="allergies"
-                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                            >
-                                                Has Allergies or Conditions
-                                            </label>
-                                            <p className="text-xs text-muted-foreground">
-                                                Does the student have any known medical conditions?
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className="grid gap-2">
-                                        <Label>Medical Details</Label>
-                                        <CustomTextarea
-                                            value={data.healthInformation.conditionsDetails}
-                                            onChange={(e) => setData({ ...data, healthInformation: { ...data.healthInformation, conditionsDetails: e.target.value } })}
-                                            placeholder="If yes, please specify..."
-                                        />
-                                    </div>
-
-                                    <div className="grid gap-2">
-                                        <Label>Special Educational Needs</Label>
-                                        <CustomTextarea
-                                            value={data.additionalInformation.specialEducationalNeeds}
-                                            onChange={(e) => setData({ ...data, additionalInformation: { ...data.additionalInformation, specialEducationalNeeds: e.target.value } })}
-                                            placeholder="Any special requirements..."
-                                        />
-                                    </div>
-                                </div>
-                            </SectionCard>
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
