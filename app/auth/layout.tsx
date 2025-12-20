@@ -35,7 +35,7 @@ export default function AuthLayout({
                             AI
                         </div>
                         <span className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
-                            Document Digitizer
+                            DigiDocs
                         </span>
                     </Link>
                 </div>

@@ -38,7 +38,7 @@ export function Hero() {
 
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-                    <Link href="/demo/ocr">
+                    <Link href="/auth/sign-up">
                         <Button size="lg" className="h-12 px-8 text-lg bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-500/20 group">
                             <Play className="mr-2 h-5 w-5 fill-current" />
                             Try Live Demo

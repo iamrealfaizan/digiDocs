@@ -13,7 +13,7 @@ export function Footer() {
                             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-teal-400 grid place-items-center text-white font-bold">
                                 AI
                             </div>
-                            <span className="text-xl font-bold text-white">Document Digitizer</span>
+                            <span className="text-xl font-bold text-white">DigiDocs</span>
                         </Link>
                         <p className="text-sm text-slate-400 leading-relaxed">
                             Automating the world's document workflows with advanced Artificial Intelligence.
@@ -49,7 +49,7 @@ export function Footer() {
 
                 <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-sm text-slate-500">
-                        © {new Date().getFullYear()} Document Digitizer. All rights reserved.
+                        © {new Date().getFullYear()} DigiDocs. All rights reserved.
                     </p>
                     <div className="flex items-center gap-4">
                         <a href="#" className="hover:text-indigo-400 transition-colors"><Twitter className="h-5 w-5" /></a>

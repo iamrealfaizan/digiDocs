@@ -37,7 +37,7 @@ export function Header() {
                         AI
                     </div>
                     <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
-                        Document Digitizer
+                        DigiDocs
                     </span>
                 </Link>
 

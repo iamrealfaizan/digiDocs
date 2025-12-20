@@ -66,7 +66,7 @@ export function ProblemSolution() {
                                 <div className="h-12 w-12 rounded-full bg-teal-500/10 flex items-center justify-center">
                                     <CheckCircle2 className="h-6 w-6 text-teal-600 dark:text-teal-400" />
                                 </div>
-                                <h3 className="text-2xl font-semibold text-teal-600 dark:text-teal-400">AI Digitizer</h3>
+                                <h3 className="text-2xl font-semibold text-teal-600 dark:text-teal-400">AI DigiDocs</h3>
                             </div>
 
                             <ul className="space-y-4">

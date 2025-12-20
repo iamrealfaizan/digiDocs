@@ -5,7 +5,7 @@ import "./globals.css";
 const lexend = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Document Digitizer",
+  title: "DigiDocs",
   description: "Transform paper documents into structured digital data with AI.",
 };
 
