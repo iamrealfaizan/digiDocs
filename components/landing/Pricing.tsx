@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
@@ -32,7 +33,9 @@ export function Pricing() {
                             </ul>
                         </CardContent>
                         <CardFooter>
-                            <Button variant="outline" className="w-full">Get Started</Button>
+                            <Link href="/auth/sign-up" className="w-full">
+                                <Button variant="outline" className="w-full">Get Started</Button>
+                            </Link>
                         </CardFooter>
                     </Card>
 
@@ -55,7 +58,9 @@ export function Pricing() {
                             </ul>
                         </CardContent>
                         <CardFooter>
-                            <Button className="w-full bg-indigo-600 hover:bg-indigo-700">Get Started</Button>
+                            <Link href="/auth/sign-up" className="w-full">
+                                <Button className="w-full bg-indigo-600 hover:bg-indigo-700">Get Started</Button>
+                            </Link>
                         </CardFooter>
                     </Card>
 

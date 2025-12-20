@@ -27,8 +27,8 @@ export function Header() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
-                    ? "bg-background/80 backdrop-blur-md border-border py-4"
-                    : "bg-transparent border-transparent py-6"
+                ? "bg-background/80 backdrop-blur-md border-border py-4"
+                : "bg-transparent border-transparent py-6"
                 }`}
         >
             <div className="container mx-auto px-6 flex items-center justify-between">
@@ -52,11 +52,16 @@ export function Header() {
                             {link.name}
                         </a>
                     ))}
-                    <Link href="#live-demo">
-                        <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 hover:to-teal-700 text-white shadow-md">
-                            Try Live Demo
-                        </Button>
-                    </Link>
+                    <div className="flex items-center gap-4 ml-4">
+                        <Link href="/auth/sign-in" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                            Sign In
+                        </Link>
+                        <Link href="/auth/sign-up">
+                            <Button size="sm" className="bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 hover:to-teal-700 text-white shadow-md">
+                                Get Started
+                            </Button>
+                        </Link>
+                    </div>
                 </nav>
 
                 {/* Mobile Nav */}
@@ -78,10 +83,14 @@ export function Header() {
                                         {link.name}
                                     </a>
                                 ))}
+                                <hr className="border-border my-2" />
+                                <Link href="/auth/sign-in" className="text-lg font-medium text-foreground hover:text-primary transition-colors">
+                                    Sign In
+                                </Link>
                             </nav>
-                            <Link href="#live-demo">
+                            <Link href="/auth/sign-up">
                                 <Button className="w-full bg-indigo-600 hover:bg-indigo-700">
-                                    Try Live Demo
+                                    Get Started
                                 </Button>
                             </Link>
                         </div>
