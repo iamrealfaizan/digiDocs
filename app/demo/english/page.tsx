@@ -164,14 +164,20 @@ export default function AdmissionOcrPage() {
                     <div className="flex flex-wrap items-center gap-3">
                         <Button variant="outline" size="sm" className="hidden sm:flex gap-2"
                             onClick={() => {
-                                alert("Demo: Download Blank Form Placeholder");
+                                const link = document.createElement("a");
+                                link.href = "/forms/SampleSchoolForm.pdf"; // static path
+                                link.download = "SampleSchoolFormFilled.pdf";
+                                link.click();
                             }}
                         >
                             <Download className="h-4 w-4" /> Blank Form
                         </Button>
                         <Button variant="outline" size="sm" className="hidden sm:flex gap-2"
                             onClick={() => {
-                                alert("Demo: Download Filled Sample Placeholder");
+                                const link = document.createElement("a");
+                                link.href = "/forms/SampleSchoolFormFilled.pdf"; // static path
+                                link.download = "SampleSchoolFormFilled.pdf";
+                                link.click();
                             }}
                         >
                             <FileText className="h-4 w-4" /> Sample Data
