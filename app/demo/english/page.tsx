@@ -11,6 +11,19 @@ import { FileText, Upload, Download, RefreshCw, ChevronLeft, Check, AlertCircle,
 import { SchoolAdmission, defaultAdmission } from "./types";
 
 /* =========================================
+   Utils
+   ========================================= */
+
+const cleanLLMJson = (txt: string) =>
+    txt
+        .trim()
+        .replace(/^"""\n?/, "")
+        .replace(/"""$/, "")
+        .replace(/^```json\s*/i, "")
+        .replace(/```$/, "")
+        .trim();
+
+/* =========================================
    Helper Components
    ========================================= */
 
@@ -74,12 +87,34 @@ export default function AdmissionOcrPage() {
         }
         setLoading(true);
         setErr(null);
+        try {
+            const fd = new FormData();
+            fd.append("file", pdf);
+            const res = await fetch("/api/ocr", { method: "POST", body: fd });
+            const json = await res.json();
 
-        // Simulate extraction for demo purposes since API isn't ready
-        setTimeout(() => {
+            if (!res.ok || json.error) {
+                throw new Error(json.error || "Extraction failed");
+            }
+
+            const parsed =
+                typeof json.structured === "string"
+                    ? JSON.parse(cleanLLMJson(json.structured))
+                    : json.structured;
+
+            // Immediately update state with parsed result
+            if (parsed) {
+                setData(parsed as SchoolAdmission);
+            } else {
+                throw new Error("Could not parse structured data from response");
+            }
+
+        } catch (e: any) {
+            setErr(e?.message || "Extraction failed. Please try again.");
+            console.error(e);
+        } finally {
             setLoading(false);
-            setErr("Demo: Backend API connection not yet implemented. This is a frontend prototype.");
-        }, 2000);
+        }
     };
 
     const reset = () => {
