@@ -16,7 +16,7 @@ export function Footer() {
                             <span className="text-xl font-bold text-white">DigiDocs</span>
                         </Link>
                         <p className="text-sm text-slate-400 leading-relaxed">
-                            Automating the world's document workflows with advanced Artificial Intelligence.
+                            Automating the world&apos;s document workflows with advanced Artificial Intelligence.
                         </p>
                     </div>
 

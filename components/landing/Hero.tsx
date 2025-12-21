@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, FileText, ScanLine, Sparkles } from "lucide-react";
+import { ArrowRight, Play, ScanLine, Sparkles } from "lucide-react";
 
 export function Hero() {
     return (

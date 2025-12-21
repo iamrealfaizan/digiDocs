@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FileText, Upload, Download, RefreshCw, ChevronLeft, Check, AlertCircle, Sparkles } from "lucide-react";
+import { FileText, Upload, Download, RefreshCw, ChevronLeft, AlertCircle, Sparkles } from "lucide-react";
 import { SchoolAdmission, defaultAdmission } from "./types";
 
 /* =========================================
@@ -161,8 +161,9 @@ export default function AdmissionOcrPage() {
                 throw new Error("Could not parse structured data from response");
             }
 
-        } catch (e: any) {
-            setErr(e?.message || "Extraction failed. Please try again.");
+        } catch (e: unknown) {
+            const message = e instanceof Error ? e.message : "Extraction failed. Please try again.";
+            setErr(message);
             console.error(e);
         } finally {
             setLoading(false);
@@ -519,7 +520,7 @@ export default function AdmissionOcrPage() {
                                 <div className="flex flex-col items-center justify-center h-full text-center p-8 text-muted-foreground opacity-50">
                                     <FileText className="h-16 w-16 mb-4 stroke-1" />
                                     <p className="text-lg font-medium">No Data Extracted Yet</p>
-                                    <p className="text-sm">Upload a document and click "Extract Data" to see results here.</p>
+                                    <p className="text-sm">Upload a document and click &quot;Extract Data&quot; to see results here.</p>
                                 </div>
                             )}
 
