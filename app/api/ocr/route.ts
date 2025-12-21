@@ -16,7 +16,7 @@ No additional keys, no extra text, comments, Markdown, or code fences.
   "studentInformation": {
     "fullName": "",                   // Student's Name:
     "dateOfBirth": "",                // Date of Birth: (MM/DD/YYYY)
-    "gender": "",                     // Gender: (e.g., "Male", "Female", "Prefer not to say")
+    "gender": "",                     // checkbox Gender: (e.g., "Male", "Female", "Prefer not to say")
     "residentialAddress": {
       "fullAddress": "",              // Residential Address:
       "city": "",                     // City:
