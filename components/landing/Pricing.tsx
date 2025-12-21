@@ -25,7 +25,7 @@ export function Pricing() {
                             <CardDescription>Perfect for testing and small projects.</CardDescription>
                         </CardHeader>
                         <CardContent className="flex-1">
-                            <div className="text-4xl font-bold mb-6">$0<span className="text-lg font-normal text-muted-foreground">/mo</span></div>
+                            <div className="text-4xl font-bold mb-6">$X<span className="text-lg font-normal text-muted-foreground">/mo</span></div>
                             <ul className="space-y-3">
                                 <li className="flex items-center gap-2 text-sm"><Check className="h-4 w-4 text-green-500" /> 50 Pages/month</li>
                                 <li className="flex items-center gap-2 text-sm"><Check className="h-4 w-4 text-green-500" /> Basic OCR</li>
@@ -49,7 +49,7 @@ export function Pricing() {
                             <CardDescription>For professionals and teams.</CardDescription>
                         </CardHeader>
                         <CardContent className="flex-1">
-                            <div className="text-4xl font-bold mb-6">$29<span className="text-lg font-normal text-muted-foreground">/mo</span></div>
+                            <div className="text-4xl font-bold mb-6">$XX<span className="text-lg font-normal text-muted-foreground">/mo</span></div>
                             <ul className="space-y-3">
                                 <li className="flex items-center gap-2 text-sm"><Check className="h-4 w-4 text-indigo-500" /> 1,000 Pages/month</li>
                                 <li className="flex items-center gap-2 text-sm"><Check className="h-4 w-4 text-indigo-500" /> Handwriting Recognition</li>
