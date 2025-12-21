@@ -220,7 +220,7 @@ export default function AdmissionOcrPage() {
                             onClick={() => {
                                 const link = document.createElement("a");
                                 link.href = "/forms/SampleSchoolForm.pdf"; // static path
-                                link.download = "SampleSchoolFormFilled.pdf";
+                                link.download = "SampleSchoolForm.pdf";
                                 link.click();
                             }}
                         >
@@ -336,11 +336,11 @@ export default function AdmissionOcrPage() {
                                     <SectionCard title="Student Information">
                                         <div className="grid gap-4">
                                             <div className="grid gap-2">
-                                                <Label>Student Name</Label>
+                                                <Label>Student&apos;s Name</Label>
                                                 <Input
                                                     value={data.studentInformation.fullName}
                                                     onChange={(e) => setData({ ...data, studentInformation: { ...data.studentInformation, fullName: e.target.value } })}
-                                                    placeholder="Full Name"
+                                                    placeholder="Student's Name"
                                                     className="bg-background/50"
                                                 />
                                             </div>
@@ -395,54 +395,112 @@ export default function AdmissionOcrPage() {
                                     </SectionCard>
 
                                     {/* Parent Info */}
-                                    <SectionCard title="Parent / Guardian">
+                                    <SectionCard title="Parent / Guardian Information">
                                         <div className="grid gap-4">
                                             <div className="grid gap-2">
-                                                <Label>Full Name</Label>
+                                                <Label>Parent/Guardian Name</Label>
                                                 <Input
                                                     value={data.parentGuardianInformation.fullName}
                                                     onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, fullName: e.target.value } })}
                                                     className="bg-background/50"
                                                 />
                                             </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="grid gap-2">
-                                                    <Label>Relationship</Label>
-                                                    <Input
-                                                        value={data.parentGuardianInformation.relationshipToStudent}
-                                                        onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, relationshipToStudent: e.target.value } })}
-                                                        className="bg-background/50"
-                                                    />
-                                                </div>
-                                                <div className="grid gap-2">
-                                                    <Label>Contact</Label>
-                                                    <Input
-                                                        value={data.parentGuardianInformation.contactNumber}
-                                                        onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, contactNumber: e.target.value } })}
-                                                        className="bg-background/50"
-                                                    />
-                                                </div>
+                                            <div className="grid gap-2">
+                                                <Label>Relationship to Student</Label>
+                                                <Input
+                                                    value={data.parentGuardianInformation.relationshipToStudent}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, relationshipToStudent: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
                                             </div>
                                             <div className="grid gap-2">
-                                                <Label>Email</Label>
+                                                <Label>Contact Number</Label>
+                                                <Input
+                                                    value={data.parentGuardianInformation.contactNumber}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, contactNumber: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Email Address</Label>
                                                 <Input
                                                     value={data.parentGuardianInformation.emailAddress}
                                                     onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, emailAddress: e.target.value } })}
                                                     className="bg-background/50"
                                                 />
                                             </div>
+                                            <div className="grid gap-2">
+                                                <Label>Occupation</Label>
+                                                <Input
+                                                    value={data.parentGuardianInformation.occupation}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, occupation: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Residential Address (if different from student)</Label>
+                                                <Input
+                                                    value={data.parentGuardianInformation.residentialAddressIfDifferent.fullAddress}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, residentialAddressIfDifferent: { ...data.parentGuardianInformation.residentialAddressIfDifferent, fullAddress: e.target.value } } })}
+                                                    placeholder="Address"
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <Input
+                                                    value={data.parentGuardianInformation.residentialAddressIfDifferent.city}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, residentialAddressIfDifferent: { ...data.parentGuardianInformation.residentialAddressIfDifferent, city: e.target.value } } })}
+                                                    placeholder="City" className="bg-background/50"
+                                                />
+                                                <Input
+                                                    value={data.parentGuardianInformation.residentialAddressIfDifferent.state}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, residentialAddressIfDifferent: { ...data.parentGuardianInformation.residentialAddressIfDifferent, state: e.target.value } } })}
+                                                    placeholder="State" className="bg-background/50"
+                                                />
+                                                <Input
+                                                    value={data.parentGuardianInformation.residentialAddressIfDifferent.zip}
+                                                    onChange={(e) => setData({ ...data, parentGuardianInformation: { ...data.parentGuardianInformation, residentialAddressIfDifferent: { ...data.parentGuardianInformation.residentialAddressIfDifferent, zip: e.target.value } } })}
+                                                    placeholder="Zip" className="bg-background/50"
+                                                />
+                                            </div>
                                         </div>
                                     </SectionCard>
 
                                     {/* Previous School */}
-                                    <SectionCard title="Previous School">
+                                    <SectionCard title="Previous School Details">
                                         <div className="grid gap-4">
                                             <div className="grid gap-2">
-                                                <Label>School Name</Label>
+                                                <Label>Name of Previous School</Label>
                                                 <Input
                                                     value={data.previousSchoolDetails.schoolName}
                                                     onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolName: e.target.value } })}
                                                     className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>School Address</Label>
+                                                <Input
+                                                    value={data.previousSchoolDetails.schoolAddress.fullAddress}
+                                                    onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolAddress: { ...data.previousSchoolDetails.schoolAddress, fullAddress: e.target.value } } })}
+                                                    placeholder="Address"
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <Input
+                                                    value={data.previousSchoolDetails.schoolAddress.city}
+                                                    onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolAddress: { ...data.previousSchoolDetails.schoolAddress, city: e.target.value } } })}
+                                                    placeholder="City" className="bg-background/50"
+                                                />
+                                                <Input
+                                                    value={data.previousSchoolDetails.schoolAddress.state}
+                                                    onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolAddress: { ...data.previousSchoolDetails.schoolAddress, state: e.target.value } } })}
+                                                    placeholder="State" className="bg-background/50"
+                                                />
+                                                <Input
+                                                    value={data.previousSchoolDetails.schoolAddress.zip}
+                                                    onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, schoolAddress: { ...data.previousSchoolDetails.schoolAddress, zip: e.target.value } } })}
+                                                    placeholder="Zip" className="bg-background/50"
                                                 />
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
@@ -464,12 +522,58 @@ export default function AdmissionOcrPage() {
                                                         className="bg-background/50"
                                                     />
                                                 </div>
+                                                <div className="grid gap-2">
+                                                    <Label>Reason for Leaving</Label>
+                                                    <Input
+                                                        value={data.previousSchoolDetails.reasonForLeaving}
+                                                        onChange={(e) => setData({ ...data, previousSchoolDetails: { ...data.previousSchoolDetails, reasonForLeaving: e.target.value } })}
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </SectionCard>
+
+                                    {/* Emergency Contact */}
+                                    <SectionCard title="Emergency Contact Information">
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-2">
+                                                <Label>Emergency Contact Name</Label>
+                                                <Input
+                                                    value={data.emergencyContactInformation.fullName}
+                                                    onChange={(e) => setData({ ...data, emergencyContactInformation: { ...data.emergencyContactInformation, fullName: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Relationship to Student</Label>
+                                                <Input
+                                                    value={data.emergencyContactInformation.relationshipToStudent}
+                                                    onChange={(e) => setData({ ...data, emergencyContactInformation: { ...data.emergencyContactInformation, relationshipToStudent: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Contact Number</Label>
+                                                <Input
+                                                    value={data.emergencyContactInformation.contactNumber}
+                                                    onChange={(e) => setData({ ...data, emergencyContactInformation: { ...data.emergencyContactInformation, contactNumber: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Alternate Contact Number</Label>
+                                                <Input
+                                                    value={data.emergencyContactInformation.alternateContactNumber}
+                                                    onChange={(e) => setData({ ...data, emergencyContactInformation: { ...data.emergencyContactInformation, alternateContactNumber: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
                                             </div>
                                         </div>
                                     </SectionCard>
 
                                     {/* Health & Additional */}
-                                    <SectionCard title="Health & Additional">
+                                    <SectionCard title="Health Information">
                                         <div className="grid gap-4">
                                             {/* Custom Checkbox Row */}
                                             <div className="flex items-start space-x-3 p-3 rounded-md bg-background/50 border border-input">
@@ -510,6 +614,73 @@ export default function AdmissionOcrPage() {
                                                     placeholder="Any special requirements..."
                                                 />
                                             </div>
+                                            <div className="grid gap-2">
+                                                <Label>Interests/Hobbies</Label>
+                                                <CustomTextarea
+                                                    value={data.additionalInformation.interestsHobbies}
+                                                    onChange={(e) => setData({ ...data, additionalInformation: { ...data.additionalInformation, interestsHobbies: e.target.value } })}
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Languages Spoken at Home</Label>
+                                                <Input
+                                                    value={data.additionalInformation.languagesSpokenAtHome}
+                                                    onChange={(e) => setData({ ...data, additionalInformation: { ...data.additionalInformation, languagesSpokenAtHome: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                        </div>
+                                    </SectionCard>
+
+                                    <SectionCard title="Declaration">
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-2">
+                                                <Label>Parent/Guardian Signature</Label>
+                                                <Input
+                                                    value={data.declaration.parentGuardianSignature}
+                                                    onChange={(e) => setData({ ...data, declaration: { ...data.declaration, parentGuardianSignature: e.target.value } })}
+                                                    className="bg-background/50 font-script text-lg"
+                                                />
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Label>Date</Label>
+                                                <Input
+                                                    value={data.declaration.date}
+                                                    onChange={(e) => setData({ ...data, declaration: { ...data.declaration, date: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                        </div>
+                                    </SectionCard>
+
+                                    <SectionCard title="Office Use Only">
+                                        <div className="grid gap-4">
+                                            <div className="grid gap-2">
+                                                <Label>Received by</Label>
+                                                <Input
+                                                    value={data.officeUseOnly.receivedBy}
+                                                    onChange={(e) => setData({ ...data, officeUseOnly: { ...data.officeUseOnly, receivedBy: e.target.value } })}
+                                                    className="bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="grid gap-2">
+                                                    <Label>Date</Label>
+                                                    <Input
+                                                        value={data.officeUseOnly.date}
+                                                        onChange={(e) => setData({ ...data, officeUseOnly: { ...data.officeUseOnly, date: e.target.value } })}
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                                <div className="grid gap-2">
+                                                    <Label>Application Number</Label>
+                                                    <Input
+                                                        value={data.officeUseOnly.applicationNumber}
+                                                        onChange={(e) => setData({ ...data, officeUseOnly: { ...data.officeUseOnly, applicationNumber: e.target.value } })}
+                                                        className="bg-background/50"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                     </SectionCard>
                                 </>
@@ -528,7 +699,7 @@ export default function AdmissionOcrPage() {
                     </div>
                 </div>
 
-            </div >
-        </div >
+            </div>
+        </div>
     );
 }

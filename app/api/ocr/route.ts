@@ -46,8 +46,8 @@ No additional keys, no extra text, comments, Markdown, or code fences.
       "zip": ""                       // Zip:
     },
     "datesAttended": {
-      "from": "",                     // Dates Attended: (start date)
-      "to": ""                        // to (end date)
+      "from": "",                     // Dates Attended: (from)
+      "to": ""                        // to
     },
     "reasonForLeaving": ""            // Reason for Leaving:
   },
