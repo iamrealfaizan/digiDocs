@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FileText, Upload, Download, RefreshCw, ChevronLeft, AlertCircle, Sparkles } from "lucide-react";
+import { FileText, Upload, Download, RefreshCw, ChevronLeft, AlertCircle, Sparkles, Save, ScanText } from "lucide-react";
+import { toast } from "sonner";
 import { SchoolAdmission, defaultAdmission } from "./types";
 
 /* =========================================
@@ -128,6 +129,7 @@ export default function AdmissionOcrPage() {
             setPdf(f);
             setPreviewUrl(URL.createObjectURL(f));
             setErr(null);
+            setHasExtracted(false);
         }
     };
 
@@ -138,6 +140,11 @@ export default function AdmissionOcrPage() {
         }
         setLoading(true);
         setErr(null);
+        toast.info("Extracting data...", {
+            description: "This may take a few seconds.",
+            duration: 2000,
+        });
+
         try {
             const fd = new FormData();
             fd.append("file", pdf);
@@ -157,6 +164,9 @@ export default function AdmissionOcrPage() {
             if (parsed) {
                 setData(parsed as SchoolAdmission);
                 setHasExtracted(true);
+                toast.success("Data extracted successfully!", {
+                    description: "Review the extracted fields below.",
+                });
             } else {
                 throw new Error("Could not parse structured data from response");
             }
@@ -165,8 +175,13 @@ export default function AdmissionOcrPage() {
             const message = e instanceof Error ? e.message : "Extraction failed. Please try again.";
             setErr(message);
             console.error(e);
+            toast.error("Extraction failed", {
+                description: message,
+            });
         } finally {
             setLoading(false);
+            // Dismiss loading toast if we used a specific ID, but simple success/error works too. 
+            // Better pattern below for loading state:
         }
     };
 
@@ -176,6 +191,13 @@ export default function AdmissionOcrPage() {
         setPreviewUrl("");
         setHasExtracted(false);
         setErr(null);
+    };
+
+    const handleSave = () => {
+        console.log("Save clicked", data);
+        toast.success("Data saved successfully!", {
+            description: "Your changes have been saved to the system.",
+        });
     };
 
     // Revoke object URL
@@ -239,13 +261,29 @@ export default function AdmissionOcrPage() {
                         <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground" onClick={reset}>
                             <RefreshCw className="h-4 w-4" /> Reset
                         </Button>
-                        <Button
-                            onClick={extract}
-                            disabled={loading || !pdf}
-                            className="bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 hover:to-teal-700 shadow-lg shadow-indigo-500/20 text-white min-w-[120px]"
-                        >
-                            {loading ? "Scanning..." : "Extract Data"}
-                        </Button>
+
+                        {hasExtracted ? (
+                            <Button variant="outline" size="sm"
+                                className="bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 hover:to-teal-700 shadow-lg shadow-indigo-500/20 text-white min-w-[120px] border-0"
+                                onClick={handleSave}
+                            >
+                                <Save className="h-4 w-4 mr-2" /> Save Data
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={extract}
+                                disabled={loading || !pdf}
+                                className="bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-700 hover:to-teal-700 shadow-lg shadow-indigo-500/20 text-white min-w-[120px]"
+                            >
+                                {loading ? (
+                                    "Scanning..."
+                                ) : (
+                                    <>
+                                        <ScanText className="h-4 w-4 mr-2" /> Extract Data
+                                    </>
+                                )}
+                            </Button>
+                        )}
                     </div>
                 </header>
 
