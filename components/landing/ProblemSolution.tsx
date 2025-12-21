@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Brain, Clock, Zap, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
+import { Clock, Zap, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 
 export function ProblemSolution() {
     return (
@@ -12,7 +12,7 @@ export function ProblemSolution() {
                         Stop Wasting Time on <span className="text-destructive">Manual Entry</span>
                     </h2>
                     <p className="text-lg text-muted-foreground">
-                        Manual data processing is the bottleneck of modern business. See exactly what you're leaving on the table.
+                        Manual data processing is the bottleneck of modern business. See exactly what you&apos;re leaving on the table.
                     </p>
                 </div>
 
